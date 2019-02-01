@@ -2,23 +2,20 @@
 # `julia build_tarballs.jl --help` to see a usage message.
 using BinaryBuilder
 
-# Collection of sources required to build MPFRBuilder
+# Collection of sources required to build cddlibBuilder
 sources = [
-    "https://www.mpfr.org/mpfr-current/mpfr-4.0.1.tar.xz" =>
-    "67874a60826303ee2fb6affc6dc0ddd3e749e9bfcb4c8655e3953d0458a6e16e",
+    "https://github.com/cddlib/cddlib/releases/download/0.94j/cddlib-0.94j.tar.gz" =>
+    "27d7fcac2710755a01ef5381010140fc57c95f959c3c5705c58539d8c4d17bfb",
 ]
-name = "MPFR"
-version = v"4.0.1"
+name = "cddlib"
+version = v"0.94j"
 
 # Bash recipe for building across all platforms
 script = raw"""
-cd mpfr-4.0.1
-UNAME=`uname`
-./configure --prefix=$prefix --host=$target --enable-shared --disable-static --with-gmp=$prefix
+cd cddlib-0.94j
+CPPFLAGS=-I$prefix/include ./configure --prefix=$prefix --host=$target
 make -j
 make install
-
-
 """
 
 # These are the platforms we will build for by default, unless further
@@ -27,12 +24,12 @@ platforms = supported_platforms()
 
 # The products that we will ensure are always built
 products(prefix) = [
-    LibraryProduct(prefix, "libmpfr", :libmpfr)
+    LibraryProduct(prefix, "libcddgmp", :libcddgmp)
 ]
 
 # Dependencies that must be installed before this package can be built
 dependencies = [
-    "https://github.com/benlorenz/GMPBuilder/releases/download/v6.1.2-2/build_GMP.v6.1.2.jl"
+    "https://github.com/JuliaMath/GMPBuilder/releases/download/v6.1.2-2/build_GMP.v6.1.2.jl"
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.

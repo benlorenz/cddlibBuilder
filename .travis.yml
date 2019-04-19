@@ -20,7 +20,7 @@ sudo: required
 before_script:
    - julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
 script:
-   - julia build_tarballs.jl
+   - julia  --color=yes build_tarballs.jl --verbose
 
 
 deploy:

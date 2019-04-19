@@ -1,25 +1,38 @@
 language: julia
 os:
-  - linux
+   - linux
 julia:
-  - 0.6
+   - 1.0
 notifications:
-  email: false
+   email: false
 git:
-  depth: 99999999
+   depth: 99999999
 cache:
-  timeout: 1000
-  directories:
-    - downloads
+   timeout: 1000
+   directories:
+      - downloads
 env:
-  global:
-    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
-    - BINARYBUILDER_AUTOMATIC_APPLE=true
+   global:
+      - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+      - BINARYBUILDER_AUTOMATIC_APPLE=false
 sudo: required
-
 # Before anything else, get the latest versions of things
 before_script:
-  - julia -e 'Pkg.clone("https://github.com/JuliaPackaging/BinaryBuilder.jl"); Pkg.build()'
-
+   - julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
 script:
-  - julia build_tarballs.jl
+   - julia build_tarballs.jl
+
+
+deploy:
+   provider: releases
+   api_key:
+      # Note; this api_key is only valid for JuliaMath/MPFRBuilder; you need
+      # to make your own: https://docs.travis-ci.com/user/deployment/releases/
+      secure: "Iuf29D/7znxtgMkyPfCA8OIRG1JaDFiR6n0+XwioXd++3MYN5sHyy1W+T9LPiO2TwJ9a0gqWsDs9EDb5VAit3zqYn5M5cqyPZWn8e1wsO1flD4aVUciV7dOTJPg77QCgq1hFTCg+FT5h4u4I1TRW++/UTFpG2ssRqcCWcsqBAfJddTbvo6OHBYzCE2MiCFgxbEgTuHxPNYmPxAwpZ0nxxYX3psFihVQmx/AqbAzLz4nwj+XWQs7mOnn3PlijmicrMMpiaIUgLC/w+ME/4KUCCs26r3wKZvqcainBB+TJj7H2z2u9enSOO0t4ZKWPo17rjG6tUgjxgkGt3hGTLmcqZqv0rqlnZrKU/K3wqzKCw1mi8iOq6rq6TWdEdA9R+u1CfrfLLtbPvm/Co/79b5WWKktLO/G6+fMO2c1HqB9tVTtQ4a0X23ysn00soMsQHaqaCXaQ+02ff/fndHVirVohstPV6XbIG0cjDpCxOyOQtSw40IQ4mt0c02IE2AOYCyrO4k4k8PRIZjfn+4eSP5MPG/7MsdkXSiu/H8NAbpY/r9iaqYexPN0WRzl5BkNvZHsTv55DT3xA+zK+6QeC9QSB8ZrgDkOUS8RTZQ9PC7L1rNtbtm/+GGpKtXxZ+qCi9phoQjf5bwO+RKZFGs888Oj8hYWXLfw9eK6C8LOE0DZvJRY="
+   file_glob: true
+   file: products/*
+   skip_cleanup: true
+   on:
+      repo: benlorenz/cddlibBuilder
+      tags: true
+

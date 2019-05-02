@@ -2,17 +2,19 @@
 # `julia build_tarballs.jl --help` to see a usage message.
 using BinaryBuilder
 
+commit_hash = "475890c3a760300f5b088c0c308d2b3b95b2acbb"
+
 # Collection of sources required to build cddlibBuilder
 sources = [
-    "https://github.com/cddlib/cddlib/releases/download/0.94j/cddlib-0.94j.tar.gz" =>
-    "27d7fcac2710755a01ef5381010140fc57c95f959c3c5705c58539d8c4d17bfb",
+    "https://github.com/cddlib/cddlib/archive/$commit_hash.zip" =>
+    commit_hash,
 ]
 name = "cddlib"
-version = v"0.94j"
+version = v"0.94j+"
 
 # Bash recipe for building across all platforms
 script = raw"""
-cd cddlib-0.94j
+cd cddlib-475890c3a760300f5b088c0c308d2b3b95b2acbb
 CPPFLAGS=-I$prefix/include ./configure --prefix=$prefix --host=$target
 make -j
 make install

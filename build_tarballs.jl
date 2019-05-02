@@ -3,11 +3,13 @@
 using BinaryBuilder
 
 commit_hash = "475890c3a760300f5b088c0c308d2b3b95b2acbb"
+# sha256sum of the zip file
+sha256_sum = "42e25b9ddd245fc2c09318269dda67c55bba77b0c5304a7f11c13d5715ae7b4f"
 
 # Collection of sources required to build cddlibBuilder
 sources = [
     "https://github.com/cddlib/cddlib/archive/$commit_hash.zip" =>
-    commit_hash,
+    sha256_sum,
 ]
 name = "cddlib"
 version = v"0.94j+"

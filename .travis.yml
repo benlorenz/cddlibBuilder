@@ -28,5 +28,5 @@ deploy:
   file: products/*
   skip_cleanup: true
   on:
-    repo: benlorenz/cddlibBuilder
+    repo: JuliaPolyhedra/cddlibBuilder
     tags: true

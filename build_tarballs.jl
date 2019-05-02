@@ -19,6 +19,7 @@ script = raw"""
 cd cddlib-475890c3a760300f5b088c0c308d2b3b95b2acbb
 ./bootstrap # needed because we are building a commit and not a release
 CPPFLAGS=-I$prefix/include ./configure --prefix=$prefix --host=$target
+cd lib-src # Call make in the lib-src subfolder to avoid building the doc folder since pdflatex is not installed
 make -j
 make install
 """
